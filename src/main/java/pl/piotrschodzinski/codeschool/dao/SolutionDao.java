@@ -1,5 +1,6 @@
 package pl.piotrschodzinski.codeschool.dao;
 
+import pl.piotrschodzinski.codeschool.model.MainPageSolution;
 import pl.piotrschodzinski.codeschool.model.Solution;
 
 import java.sql.*;
@@ -11,7 +12,7 @@ public class SolutionDao {
     private final static String DELATE_SOLUTION = "DELETE FROM solution WHERE id=?";
     private final static String GET_SOLUTION_BY_ID = "SELECT* FROM solution WHERE id=?";
     private final static String GET_ALL_SOLUTIONS = "SELECT* FROM solution";
-    private final static String GET_ALL_SOLUTIONS_LIMIT = "SELECT* FROM solution ORDER BY created DESC LIMIT ?";
+    private final static String GET_ALL_SOLUTIONS_LIMIT = "SELECT solution.id AS id, solution.description, exercise_id, users_id, exercise.title AS title, users.username AS author, created FROM solution JOIN exercise ON solution.exercise_id=exercise.id JOIN users ON solution.users_id=users.id ORDER BY created DESC LIMIT ?";
 
     public static Solution createSolution(Connection connection, Solution solution) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(
@@ -56,23 +57,20 @@ public class SolutionDao {
         return solutions;
     }
 
-    public static ArrayList<Solution> getAllSolutions(Connection connection, int limit) throws SQLException {
-        ArrayList<Solution> solutions = new ArrayList<>();
+    public static ArrayList<MainPageSolution> getAllSolutions(Connection connection, int limit) throws SQLException {
+        ArrayList<MainPageSolution> solutions = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(GET_ALL_SOLUTIONS_LIMIT);
         statement.setInt(1, limit);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            Solution solution = new Solution();
+            MainPageSolution solution = new MainPageSolution();
             solution.setId(resultSet.getInt("id"));
             solution.setCreated(resultSet.getTimestamp("created").toLocalDateTime());
-            if (resultSet.getTimestamp("updated") != null) {
-                solution.setUpdated(resultSet.getTimestamp("updated").toLocalDateTime());
-            } else {
-                solution.setUpdated(null);
-            }
             solution.setDescription(resultSet.getString("description"));
             solution.setExerciseId(resultSet.getInt("exercise_id"));
             solution.setUserId(resultSet.getInt("users_id"));
+            solution.setAuthor(resultSet.getString("author"));
+            solution.setTitle(resultSet.getString("title"));
             solutions.add(solution);
         }
         return solutions;

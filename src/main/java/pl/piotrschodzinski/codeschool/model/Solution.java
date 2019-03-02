@@ -3,12 +3,12 @@ package pl.piotrschodzinski.codeschool.model;
 import java.time.LocalDateTime;
 
 public class Solution {
-    private int id;
-    private LocalDateTime created;
-    private LocalDateTime updated;
-    private String description;
-    private int exerciseId;
-    private int userId;
+    protected int id;
+    protected LocalDateTime created;
+    protected LocalDateTime updated;
+    protected String description;
+    protected int exerciseId;
+    protected int userId;
 
     public Solution() {
     }

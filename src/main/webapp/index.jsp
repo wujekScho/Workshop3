@@ -13,21 +13,20 @@
 </head>
 <body>
 <jsp:include page="WEB-INF/header.jsp"/>
-<table border="1">
+<h2>Ostatnie rozwiązania</h2>
+<table border="2">
     <tr>
-        <th>Created</th>
-        <th>Updated</th>
-        <th>Description</th>
-        <th>Exercise Id</th>
-        <th>User Id</th>
+        <th>Tytuł zadania</th>
+        <th>Autor rozwiązania</th>
+        <th>Data dodania</th>
+        <th>Akcje</th>
     </tr>
     <c:forEach items="${solutions}" var="solution">
         <tr>
+            <td>${solution.title}</td>
+            <td>${solution.author}</td>
             <td>${solution.created}</td>
-            <td>${solution.updated}</td>
-            <td>${solution.description}</td>
-            <td>${solution.exerciseId}</td>
-            <td>${solution.userId}</td>
+            <td><a href="/ExcerciseSolution?id=${solution.id}">Szczegóły</a></td>
         </tr>
     </c:forEach>
 </table>

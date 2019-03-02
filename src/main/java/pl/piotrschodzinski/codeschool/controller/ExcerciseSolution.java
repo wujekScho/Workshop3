@@ -1,7 +1,5 @@
 package pl.piotrschodzinski.codeschool.controller;
 
-import pl.piotrschodzinski.codeschool.dao.SolutionDao;
-import pl.piotrschodzinski.codeschool.model.MainPageSolution;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -12,17 +10,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-@WebServlet("/home")
-public class GetLastSolutions extends HttpServlet {
+@WebServlet("/ExcerciseSolution")
+public class ExcerciseSolution extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int limit = Integer.parseInt(getServletContext().getInitParameter("number-solutions"));
+        request.getParameter("id");
         try {
             Connection connection = DbUtil.getConn();
-            ArrayList<MainPageSolution> lastSolutions = SolutionDao.getAllSolutions(connection, limit);
-            request.setAttribute("solutions", lastSolutions);
-            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            String description; //todo tu skończyłem, doddać pobieranie deskrypcji z solution o id pobranym z parametru
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
