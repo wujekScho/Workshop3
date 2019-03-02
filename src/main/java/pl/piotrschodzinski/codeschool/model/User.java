@@ -3,7 +3,7 @@ package pl.piotrschodzinski.codeschool.model;
 import org.mindrot.jbcrypt.BCrypt;
 
 public class User {
-    private long id;
+    private int id;
     private String username;
     private String email;
     private String password;
@@ -20,7 +20,7 @@ public class User {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
