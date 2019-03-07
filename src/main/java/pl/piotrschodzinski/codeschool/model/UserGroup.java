@@ -9,6 +9,7 @@ public class UserGroup {
         this.name = name;
     }
 
+
     public int getId() {
         return id;
     }
@@ -23,5 +24,8 @@ public class UserGroup {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public UserGroup() {
     }
 }

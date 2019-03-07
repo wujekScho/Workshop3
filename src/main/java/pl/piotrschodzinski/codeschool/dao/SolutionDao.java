@@ -36,22 +36,23 @@ public class SolutionDao {
         return null;
     }
 
+    public static Solution getSolutionById(Connection connection, int id) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(GET_SOLUTION_BY_ID);
+        statement.setInt(1, id);
+        ResultSet resultSet = statement.executeQuery();
+        if (resultSet.next()) {
+            Solution solution = loadSingleSolution(resultSet);
+            return solution;
+        }
+        return null;
+    }
+
     public static ArrayList<Solution> getAllSolutions(Connection connection) throws SQLException {
         ArrayList<Solution> solutions = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(GET_ALL_SOLUTIONS);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
-            Solution solution = new Solution();
-            solution.setId(resultSet.getInt("id"));
-            solution.setCreated(resultSet.getTimestamp("created").toLocalDateTime());
-            if (resultSet.getTimestamp("updated") != null) {
-                solution.setUpdated(resultSet.getTimestamp("updated").toLocalDateTime());
-            } else {
-                solution.setUpdated(null);
-            }
-            solution.setDescription(resultSet.getString("description"));
-            solution.setExerciseId(resultSet.getInt("exercise_id"));
-            solution.setUserId(resultSet.getInt("users_id"));
+            Solution solution = loadSingleSolution(resultSet);
             solutions.add(solution);
         }
         return solutions;
@@ -74,5 +75,20 @@ public class SolutionDao {
             solutions.add(solution);
         }
         return solutions;
+    }
+
+    private static Solution loadSingleSolution(ResultSet resultSet) throws SQLException {
+        Solution solution = new Solution();
+        solution.setId(resultSet.getInt("id"));
+        solution.setCreated(resultSet.getTimestamp("created").toLocalDateTime());
+        if (resultSet.getTimestamp("updated") != null) {
+            solution.setUpdated(resultSet.getTimestamp("updated").toLocalDateTime());
+        } else {
+            solution.setUpdated(null);
+        }
+        solution.setDescription(resultSet.getString("description"));
+        solution.setExerciseId(resultSet.getInt("exercise_id"));
+        solution.setUserId(resultSet.getInt("users_id"));
+        return solution;
     }
 }

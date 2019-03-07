@@ -1,5 +1,6 @@
 package pl.piotrschodzinski.codeschool.controller;
 
+import pl.piotrschodzinski.codeschool.dao.SolutionDao;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -18,10 +19,13 @@ public class ExcerciseSolution extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getParameter("id");
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
-            String description; //todo tu skończyłem, doddać pobieranie deskrypcji z solution o id pobranym z parametru
+            String description = SolutionDao.getSolutionById(connection, id).getDescription();
+            request.setAttribute("description", description);
+            System.out.println(description);
+            getServletContext().getRequestDispatcher("/solution_details.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
