@@ -12,6 +12,7 @@ public class SolutionDao {
     private final static String DELATE_SOLUTION = "DELETE FROM solution WHERE id=?";
     private final static String GET_SOLUTION_BY_ID = "SELECT* FROM solution WHERE id=?";
     private final static String GET_ALL_SOLUTIONS = "SELECT* FROM solution";
+    private final static String GET_USER_SOLUTIONS = "SELECT* FROM solution WHERE users_id=? AND updated IS NOT NULL AND updated != '0000-00-00 00:00:00'";
     private final static String GET_ALL_SOLUTIONS_LIMIT = "SELECT solution.id AS id, solution.description, exercise_id, users_id, exercise.title AS title, users.username AS author, created FROM solution JOIN exercise ON solution.exercise_id=exercise.id JOIN users ON solution.users_id=users.id ORDER BY created DESC LIMIT ?";
 
     public static Solution createSolution(Connection connection, Solution solution) throws SQLException {
@@ -50,6 +51,18 @@ public class SolutionDao {
     public static ArrayList<Solution> getAllSolutions(Connection connection) throws SQLException {
         ArrayList<Solution> solutions = new ArrayList<>();
         PreparedStatement statement = connection.prepareStatement(GET_ALL_SOLUTIONS);
+        ResultSet resultSet = statement.executeQuery();
+        while (resultSet.next()) {
+            Solution solution = loadSingleSolution(resultSet);
+            solutions.add(solution);
+        }
+        return solutions;
+    }
+
+    public static ArrayList<Solution> getUserSolutions(Connection connection, int userId) throws SQLException {
+        ArrayList<Solution> solutions = new ArrayList<>();
+        PreparedStatement statement = connection.prepareStatement(GET_USER_SOLUTIONS);
+        statement.setInt(1, userId);
         ResultSet resultSet = statement.executeQuery();
         while (resultSet.next()) {
             Solution solution = loadSingleSolution(resultSet);

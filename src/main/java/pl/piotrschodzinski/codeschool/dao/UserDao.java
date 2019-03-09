@@ -28,6 +28,12 @@ public class UserDao {
         return null;
     }
 
+    public static void deleteUser(Connection connection, int userId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(DELATE_USER);
+        statement.setInt(1, userId);
+        statement.executeUpdate();
+    }
+
     public static User getUserById(Connection connection, int id) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(GET_USER_BY_ID);
         statement.setInt(1, id);
@@ -36,6 +42,16 @@ public class UserDao {
             return loadSingleUser(resultSet);
         }
         return null;
+    }
+
+    public static ArrayList<User> getAllUsers(Connection connection) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(GET_ALL_USERS);
+        ResultSet resultSet = statement.executeQuery();
+        ArrayList<User> users = new ArrayList<>();
+        while (resultSet.next()) {
+            users.add(loadSingleUser(resultSet));
+        }
+        return users;
     }
 
     public static ArrayList<User> getGroupUsers(Connection connection, int groupId) throws SQLException {
