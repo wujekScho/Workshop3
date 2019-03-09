@@ -13,7 +13,10 @@ public class User {
         this.username = username;
         this.email = email;
         this.userGroupId = userGroupId;
-        setPassword(password);
+        hashPassword(password);
+    }
+
+    public User() {
     }
 
     public long getId() {
@@ -44,8 +47,12 @@ public class User {
         return password;
     }
 
-    private void setPassword(String password) {
+    private void hashPassword(String password) {
         this.password = BCrypt.hashpw(password, BCrypt.gensalt());
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public int getUserGroupId() {

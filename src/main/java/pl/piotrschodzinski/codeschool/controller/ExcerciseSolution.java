@@ -24,7 +24,6 @@ public class ExcerciseSolution extends HttpServlet {
             Connection connection = DbUtil.getConn();
             String description = SolutionDao.getSolutionById(connection, id).getDescription();
             request.setAttribute("description", description);
-            System.out.println(description);
             getServletContext().getRequestDispatcher("/solution_details.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
