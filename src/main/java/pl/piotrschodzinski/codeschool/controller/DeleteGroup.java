@@ -12,17 +12,18 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/GroupManagement")
-public class GroupManagement extends HttpServlet {
+@WebServlet("/DeleteGroup")
+public class DeleteGroup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int groupId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
-            request.setAttribute("groups", GroupDao.getAllGroups(connection));
-            getServletContext().getRequestDispatcher("/group_management.jsp").forward(request, response);
+            GroupDao.deleteGroup(connection, groupId);
+            getServletContext().getRequestDispatcher("/GroupManagement").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

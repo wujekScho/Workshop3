@@ -3,30 +3,33 @@
   Created by IntelliJ IDEA.
   User: Scho
   Date: 10.03.2019
-  Time: 17:13
+  Time: 19:26
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Zarządzanie grupami</title>
+    <title>Zarządzanie ćwiczeniami</title>
 </head>
 <body>
 <jsp:include page="WEB-INF/header.jsp"/>
-<h2>Lista grup użytkowników</h2>
+<h2>Lista zadań</h2>
 <table border="2">
     <tr>
         <th>Nazwa</th>
+        <th>Opis</th>
         <th>Akcje</th>
     </tr>
-    <c:forEach items="${groups}" var="group">
+    <c:forEach items="${exercises}" var="exercise">
         <tr>
-            <td>${group.name}</td>
-            <td><a href="DeleteGroup?id=${group.id}">Usuń</a> <a href="EditGroup?id=${group.id}">Edytuj</a></td>
+            <td>${exercise.title}</td>
+            <td>${exercise.description}</td>
+            <td><a href="DeleteExercise?id=${exercise.id}">Usuń</a> <a href="EditExercise?id=${exercise.id}">Edytuj</a>
+            </td>
         </tr>
     </c:forEach>
 </table>
-<a href="AddGroup">Dodaj grupę</a>
+<a href="AddExercise">Dodaj zadanie</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>

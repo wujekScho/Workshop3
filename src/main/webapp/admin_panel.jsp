@@ -13,7 +13,7 @@
 <body>
 <jsp:include page="WEB-INF/header.jsp"/>
 <h2>Panel administratora</h2>
-<a href="ExcerciseManagement">Lista zadań</a><br>
+<a href="ExerciseManagement">Lista zadań</a><br>
 <a href="GroupManagement">Lista grup</a><br>
 <a href="UserManagement">Lista użytkowników</a><br>
 <jsp:include page="WEB-INF/footer.jsp"/>
