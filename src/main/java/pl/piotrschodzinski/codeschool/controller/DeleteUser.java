@@ -29,6 +29,5 @@ public class DeleteUser extends HttpServlet {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
 }

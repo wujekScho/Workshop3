@@ -28,6 +28,16 @@ public class UserDao {
         return null;
     }
 
+    public static void updateUser(Connection connection, User user, int userId) throws SQLException {
+        PreparedStatement statement = connection.prepareStatement(UPDATE_USER);
+        statement.setString(1, user.getUsername());
+        statement.setString(2, user.getEmail());
+        statement.setString(3, user.getPassword());
+        statement.setInt(4, user.getUserGroupId());
+        statement.setInt(5, userId);
+        statement.executeUpdate();
+    }
+
     public static void deleteUser(Connection connection, int userId) throws SQLException {
         PreparedStatement statement = connection.prepareStatement(DELATE_USER);
         statement.setInt(1, userId);

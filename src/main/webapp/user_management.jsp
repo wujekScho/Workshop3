@@ -26,11 +26,11 @@
             <td>${user.username}</td>
             <td>${user.email}</td>
             <td>${user.userGroupId}</td>
-            <td><a href="DeleteUser?id=${user.id}">Usuń</a></td>
+            <td><a href="DeleteUser?id=${user.id}">Usuń</a> <a href="EditUser?id=${user.id}">Edytuj</a></td>
         </tr>
     </c:forEach>
 </table>
-
+<a href="AddUser">Dodaj użytkownika</a>
 <jsp:include page="WEB-INF/footer.jsp"/>
 </body>
 </html>
