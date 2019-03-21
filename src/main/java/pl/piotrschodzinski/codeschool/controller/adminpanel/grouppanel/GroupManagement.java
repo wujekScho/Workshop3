@@ -1,4 +1,4 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel.grouppanel;
 
 import pl.piotrschodzinski.codeschool.dao.GroupDao;
 import pl.piotrschodzinski.codeschool.util.DbUtil;

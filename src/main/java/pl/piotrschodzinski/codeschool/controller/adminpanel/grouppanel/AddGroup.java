@@ -1,6 +1,7 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel.grouppanel;
 
-import pl.piotrschodzinski.codeschool.dao.UserDao;
+import pl.piotrschodzinski.codeschool.dao.GroupDao;
+import pl.piotrschodzinski.codeschool.model.UserGroup;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -12,21 +13,23 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/UserManagement")
-public class UserManagement extends HttpServlet {
+@WebServlet("/AddGroup")
+public class AddGroup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String groupName = request.getParameter("name");
+        UserGroup group = new UserGroup(groupName);
         try {
             Connection connection = DbUtil.getConn();
-            request.setAttribute("users", UserDao.getAllUsers(connection));
-            getServletContext().getRequestDispatcher("/user_management.jsp").forward(request, response);
+            GroupDao.createGroup(connection, group);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        response.sendRedirect("GroupManagement");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        getServletContext().getRequestDispatcher("/add_group.jsp").forward(request, response);
     }
 }

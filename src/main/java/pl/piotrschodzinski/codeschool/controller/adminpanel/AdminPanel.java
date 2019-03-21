@@ -1,4 +1,4 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

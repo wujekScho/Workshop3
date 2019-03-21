@@ -1,7 +1,6 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.mainpage;
 
 import pl.piotrschodzinski.codeschool.dao.SolutionDao;
-import pl.piotrschodzinski.codeschool.model.MainPageSolution;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -12,17 +11,20 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-@WebServlet("/")
-public class GetLastSolutions extends HttpServlet {
+@WebServlet("/ExcerciseSolution")
+public class ExcerciseSolution extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+    }
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int limit = Integer.parseInt(getServletContext().getInitParameter("number-solutions"));
+        int id = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
-            ArrayList<MainPageSolution> lastSolutions = SolutionDao.getAllSolutions(connection, limit);
-            request.setAttribute("solutions", lastSolutions);
-            getServletContext().getRequestDispatcher("/index.jsp").forward(request, response);
+            String description = SolutionDao.getSolutionById(connection, id).getDescription();
+            request.setAttribute("description", description);
+            getServletContext().getRequestDispatcher("/solution_details.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

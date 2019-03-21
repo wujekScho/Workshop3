@@ -1,4 +1,4 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel.exercisepanel;
 
 import pl.piotrschodzinski.codeschool.dao.ExerciseDao;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
@@ -12,18 +12,17 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/DeleteExercise")
-public class DeleteExercise extends HttpServlet {
+@WebServlet("/ExerciseManagement")
+public class ExerciseManagement extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int exerciseId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
-            ExerciseDao.deleteExercise(connection, exerciseId);
-            getServletContext().getRequestDispatcher("/ExerciseManagement").forward(request, response);
+            request.setAttribute("exercises", ExerciseDao.getAllExercises(connection));
+            getServletContext().getRequestDispatcher("/exercise_management.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

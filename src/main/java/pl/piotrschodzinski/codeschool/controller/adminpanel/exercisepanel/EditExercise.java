@@ -1,8 +1,7 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel.exercisepanel;
 
-import pl.piotrschodzinski.codeschool.dao.GroupDao;
-import pl.piotrschodzinski.codeschool.dao.UserDao;
-import pl.piotrschodzinski.codeschool.model.User;
+import pl.piotrschodzinski.codeschool.dao.ExerciseDao;
+import pl.piotrschodzinski.codeschool.model.Exercise;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -14,30 +13,32 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/AddUser")
-public class AddUser extends HttpServlet {
+@WebServlet("/EditExercise")
+public class EditExercise extends HttpServlet {
+    private static int exerciseId;
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String userName = request.getParameter("name");
-        String email = request.getParameter("email");
-        int groupId = Integer.parseInt(request.getParameter("groupId"));
-        String pass = request.getParameter("password");
-        User user = new User(userName, email, groupId, pass);
+        String title = request.getParameter("name");
+        String description = request.getParameter("description");
+        Exercise exercise = new Exercise(title, description);
         try {
             Connection connection = DbUtil.getConn();
-            UserDao.createUser(connection, user);
+            ExerciseDao.updateExercise(connection, exercise, exerciseId);
+
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
-        response.sendRedirect("UserManagement");
+        response.sendRedirect("ExerciseManagement");
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        exerciseId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
-            request.setAttribute("groups", GroupDao.getAllGroups(connection));
-            getServletContext().getRequestDispatcher("/add_user.jsp").forward(request, response);
+            request.setAttribute("exercise", ExerciseDao.getExerciseById(connection, exerciseId));
+            getServletContext().getRequestDispatcher("/edit_exercise.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

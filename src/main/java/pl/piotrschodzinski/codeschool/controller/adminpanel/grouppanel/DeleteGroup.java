@@ -1,6 +1,6 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel.grouppanel;
 
-import pl.piotrschodzinski.codeschool.dao.SolutionDao;
+import pl.piotrschodzinski.codeschool.dao.GroupDao;
 import pl.piotrschodzinski.codeschool.util.DbUtil;
 
 import javax.servlet.ServletException;
@@ -12,19 +12,18 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/ExcerciseSolution")
-public class ExcerciseSolution extends HttpServlet {
+@WebServlet("/DeleteGroup")
+public class DeleteGroup extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
+        int groupId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
-            String description = SolutionDao.getSolutionById(connection, id).getDescription();
-            request.setAttribute("description", description);
-            getServletContext().getRequestDispatcher("/solution_details.jsp").forward(request, response);
+            GroupDao.deleteGroup(connection, groupId);
+            getServletContext().getRequestDispatcher("/GroupManagement").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

@@ -1,4 +1,4 @@
-package pl.piotrschodzinski.codeschool.controller;
+package pl.piotrschodzinski.codeschool.controller.adminpanel.userpanel;
 
 import pl.piotrschodzinski.codeschool.dao.GroupDao;
 import pl.piotrschodzinski.codeschool.dao.UserDao;
@@ -14,10 +14,8 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-@WebServlet("/EditUser")
-public class EditUser extends HttpServlet {
-    private static int userId;
-
+@WebServlet("/AddUser")
+public class AddUser extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String userName = request.getParameter("name");
         String email = request.getParameter("email");
@@ -26,7 +24,7 @@ public class EditUser extends HttpServlet {
         User user = new User(userName, email, groupId, pass);
         try {
             Connection connection = DbUtil.getConn();
-            UserDao.updateUser(connection, user, userId);
+            UserDao.createUser(connection, user);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -36,12 +34,10 @@ public class EditUser extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        userId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
             request.setAttribute("groups", GroupDao.getAllGroups(connection));
-            request.setAttribute("user", UserDao.getUserById(connection, userId));
-            getServletContext().getRequestDispatcher("/edit_user.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/add_user.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
