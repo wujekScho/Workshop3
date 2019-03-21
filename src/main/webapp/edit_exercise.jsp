@@ -17,6 +17,7 @@
 <form method="post" action="EditExercise">
     <label> Nazwa <input type="text" name="name" required/></label><br>
     <label> Opis <input type="text" name="description" required/></label><br>
+    <input type="hidden" name="id" value="${id}"/>
     <button type="submit">Edytuj zadanie</button>
 </form>
 <jsp:include page="WEB-INF/footer.jsp"/>

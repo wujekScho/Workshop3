@@ -15,9 +15,9 @@ import java.sql.SQLException;
 
 @WebServlet("/EditExercise")
 public class EditExercise extends HttpServlet {
-    private static int exerciseId;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int exerciseId = Integer.parseInt(request.getParameter("id"));
         String title = request.getParameter("name");
         String description = request.getParameter("description");
         Exercise exercise = new Exercise(title, description);
@@ -34,10 +34,11 @@ public class EditExercise extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        exerciseId = Integer.parseInt(request.getParameter("id"));
+        int exerciseId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
             request.setAttribute("exercise", ExerciseDao.getExerciseById(connection, exerciseId));
+            request.setAttribute("id", exerciseId);
             getServletContext().getRequestDispatcher("/edit_exercise.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

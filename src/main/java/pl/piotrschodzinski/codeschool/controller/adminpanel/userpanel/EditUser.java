@@ -16,9 +16,9 @@ import java.sql.SQLException;
 
 @WebServlet("/EditUser")
 public class EditUser extends HttpServlet {
-    private static int userId;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int userId = Integer.parseInt(request.getParameter("id"));
         String userName = request.getParameter("name");
         String email = request.getParameter("email");
         int groupId = Integer.parseInt(request.getParameter("groupId"));
@@ -36,11 +36,12 @@ public class EditUser extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        userId = Integer.parseInt(request.getParameter("id"));
+        int userId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
             request.setAttribute("groups", GroupDao.getAllGroups(connection));
             request.setAttribute("user", UserDao.getUserById(connection, userId));
+            request.setAttribute("id", userId);
             getServletContext().getRequestDispatcher("/edit_user.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

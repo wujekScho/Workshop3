@@ -25,6 +25,7 @@
         </select>
     </label><br>
     <label> Hasło <input type="password" name="password" required/></label><br>
+    <input type="hidden" name="id" value="${id}">
     <button type="submit">Edytuj użytkownika</button>
 </form>
 <jsp:include page="WEB-INF/footer.jsp"/>

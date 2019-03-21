@@ -15,9 +15,9 @@ import java.sql.SQLException;
 
 @WebServlet("/EditGroup")
 public class EditGroup extends HttpServlet {
-    private static int groupId;
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        int groupId = Integer.parseInt(request.getParameter("id"));
         String groupName = request.getParameter("name");
         UserGroup group = new UserGroup(groupName);
         try {
@@ -32,10 +32,11 @@ public class EditGroup extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        groupId = Integer.parseInt(request.getParameter("id"));
+        int groupId = Integer.parseInt(request.getParameter("id"));
         try {
             Connection connection = DbUtil.getConn();
             request.setAttribute("group", GroupDao.getGroupById(connection, groupId));
+            request.setAttribute("id", groupId);
             getServletContext().getRequestDispatcher("/edit_group.jsp").forward(request, response);
         } catch (SQLException e) {
             e.printStackTrace();

@@ -16,6 +16,7 @@
 <h2>Edycja grupy użytkowników</h2>
 <form method="post" action="EditGroup">
     <label> Nazwa <input type="text" name="name" value="${group.name}" required/></label><br>
+    <input type="hidden" name="id" value="${id}"/>
     <button type="submit">Edytuj grupę</button>
 </form>
 <jsp:include page="WEB-INF/footer.jsp"/>
